@@ -1,16 +1,13 @@
 import dotenv from "dotenv";
-import { AzureOpenAI } from "openai";
 import readline from "readline";
 import { ChatCompletionMessageParam } from "openai/resources/chat/completions";
 import { readFileSync, writeFileSync } from "fs";
+import { getOpenAIClient, OpenAiType } from "./utils/openai";
 
 dotenv.config();
-const apiKey = process.env.AZURE_OPENAI_API_KEY;
-const endpoint = process.env.AZURE_OPENAI_ENDPOINT;
-const deployment = process.env.AZURE_OPENAI_DEPLOYMENT;
-const apiVersion = process.env.AZURE_OPENAI_API_VERSION;
 
-const openai = new AzureOpenAI({ endpoint, apiKey, apiVersion, deployment });
+// const openai = new AzureOpenAI({ endpoint, apiKey, apiVersion, deployment });
+const {openai, model} = getOpenAIClient(OpenAiType.Ollama);
 function readFile(args: any) {
   try {
     const content = readFileSync(args.path, "utf-8");
@@ -42,7 +39,7 @@ async function chatLoop() {
     message: ChatCompletionMessageParam[]
   ): Promise<void> {
     const stream = await openai.chat.completions.create({
-      model: "gpt-4o-mini-2024-07-18",
+      model: model,
       messages: message,
       stream: true,
     });
@@ -62,7 +59,7 @@ async function chatLoop() {
     rl.question("You: ", async (input) => {
       messages.push({ role: "user", content: input });
       const stream = await openai.chat.completions.create({
-        model: "gpt-4o-mini-2024-07-18",
+        model: model,
         messages: messages,
         tools: [
           {
