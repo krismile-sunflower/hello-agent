@@ -5,7 +5,7 @@
 ## 主要特性
 - 支持流式输出
 - 支持函数调用（如 read_file、write_file）
-- 支持通过 .env 配置切换后端和模型
+- 支持通过 .env 配置切换后端和模型，新建.env文件，将.env.example 复制为 .env，并修改参数。
 
 ## 目录结构
 - `src/main.ts`：主入口，自动选择后端并实现对话与函数调用。
@@ -16,18 +16,18 @@
 
 ```ini
 # Azure OpenAI
-AZURE_OPENAI_API_KEY=xxx
-AZURE_OPENAI_ENDPOINT=xxx
-AZURE_OPENAI_MODEL=gpt-4o-mini
-AZURE_OPENAI_DEPLOYMENT=gpt-4o-mini
-AZURE_OPENAI_API_VERSION=2025-01-01-preview
-Azure_MODEL_NAME=gpt-4o-mini-2024-07-18
+AZURE_OPENAI_API_KEY='' # 密钥
+AZURE_OPENAI_ENDPOINT='' # 总结点
+AZURE_OPENAI_DEPLOYMENT=gpt-4o-mini # 模型部署名称
+AZURE_OPENAI_API_VERSION=2025-01-01-preview # API版本
+
+Azure_MODEL_NAME=gpt-4o-mini-2024-07-18 # 模型名称
 
 # OpenAI
 OPENAI_API_KEY=sk-xxx
 OPENAI_MODEL=gpt-4o-mini
 
-# Ollama, 模型需要致辞函数调用
+# Ollama, 模型需要支持函数调用
 OLLAMA_MODEL=qwen3:latest
 ```
 
@@ -59,4 +59,7 @@ const { openai, model } = getOpenAIClient(OpenAiType.Ollama); // 可切换
 - Ollama 默认监听 http://localhost:11434/v1，需提前启动。
 - 各后端模型名称需与本地/云端实际部署一致。
 
+
+## 文章教程链接
+- [掘金](https://juejin.cn/post/7516359841678557238)
 ---
